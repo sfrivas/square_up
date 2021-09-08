@@ -1,0 +1,56 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <link href="{% static 'main.css' %}" rel="stylesheet">
+        {% if title %}
+        <title>Square Up - {{ title }}</title>
+        {% else %}
+        <title>Square Up</title>
+        {% endif %}
+    </head>
+
+    <body class="">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#" >
+                    <svg id="navbar-su-logo">
+                        <use href="#su-logo-group"/>
+                    </svg>
+                    <span class="fw-bold">Square Up</span>
+                </a>
+                <div class="d-flex">
+                    {% if user.is_authenticated %}
+                    <button class="btn btn-outline-primary me-2" type="submit">NA</button>
+                    <button class="btn btn-primary" type="submit">NA</button>
+                    {% else %}
+                    <button class="btn btn-outline-primary me-2" type="submit">Sign In</button>
+                    <a class="btn btn-primary" href="{% url 'register' %}">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        {% block content %}{% endblock %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous">
+        </script>
+    </body>
+    <svg id="su-logo" width="250" height="250" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="su-logo-group" viewBox="0 0 250 250">
+            <title>Square Up Logo</title>
+            <rect id="su-logo-rect" rx="25" x="12.5" y="12.5" width="225" height="225" stroke-width="25" />
+            <!-- <line id="su-logo-vertical-line" y2="237" x2="125" y1="100" x1="125" stroke-width="25" fill="none" stroke-linecap="round" /> -->
+            <line id="su-logo-left-line" fill="none" stroke-width="25" x1="125" y1="100" x2="75" y2="150" stroke-linecap="round" />
+            <line id="su-logo-right-line" fill="none" stroke-width="25" x1="125" y1="100" x2="175" y2="150" stroke-linecap="round" />
+        </symbol>
+    </svg>
+</html>
