@@ -1,0 +1,49 @@
+//// Database design document from https://dbdiagram.io/d
+
+
+//// -- LEVEL 1
+//// -- Tables and References
+
+// Creating tables
+Table users as U {
+  id int [pk, increment] // auto-increment
+  username varchar
+  first_name varchar
+  last_name varchar
+  email varchar
+  password varchar
+}
+
+Table user_friends as UF {
+  id int [pk, increment]
+  source_id int [ref: > U.id]
+  target_id int [ref: > U.id]
+  created_date datetime
+  updated_date datetime
+  status int // New, Active, Rejected
+}
+
+Table transactions as T {
+  id int [pk]
+  user_id int [ref: > U.id]
+  amount decimal(10,2)
+  transaction_date datetime
+  created_date datetime
+ }
+ 
+ Table transaction_details as TD {
+   id int [pk, increment]
+   transaction_id int [ref: > T.id]
+   amount decimal(10,2)
+   from_user int [ref: > U.id]
+   to_user int  [ref: > U.id]
+   ledger_zeroed boolean
+ }
+
+// Creating references
+// You can also define relaionship separately
+// > many-to-one; < one-to-many; - one-to-one
+// Ref: U.country_code > countries.code  
+// Ref: merchants.country_code > countries.code
+
+//----------------------------------------------//
