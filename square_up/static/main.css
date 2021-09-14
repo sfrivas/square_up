@@ -38,3 +38,22 @@ body {
 .su-home {
     height: 100%;
 }
+
+.account-img {
+    height: 125px;
+    width: 125px;
+    /* margin-right: 20px;
+    margin-bottom: 16px; */
+}
+
+.search-img {
+    height: 50px;
+    width: 50px;
+}
+
+.dropdown-menu-center {
+    width: 375px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 100% !important;
+}

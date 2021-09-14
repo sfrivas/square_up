@@ -14,6 +14,12 @@ Table users as U {
   password varchar
 }
 
+Table profile as P {
+  id int [pk, increment]
+  user_id int [ref: - U.id]
+  profile_pic image
+}
+
 Table user_friends as UF {
   id int [pk, increment]
   source_id int [ref: > U.id]

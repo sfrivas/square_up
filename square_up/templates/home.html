@@ -1,14 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="container-fluid h-100 pt-5 flex-grow-1" >
-        <div class="d-flex flex-column align-items-center justify-content-center flex-grow-1" id="su-banner">
-            <svg class="mb-1" width="250" height="250">
-                <use href="#su-logo-group" />
-            </svg>
-            <div class="mb-3">
-                <h1 class="display-1 fw-bold">Square Up</h1>
-            </div>
-            <button type="button" class="btn btn-primary">Sign Up</button>
+<div class="container-fluid h-100 pt-5 flex-grow-1">
+    <div class="d-flex flex-column align-items-center justify-content-center flex-grow-1" id="su-banner">
+        <svg class="mb-1" width="250" height="250">
+            <use href="#su-logo-group" />
+        </svg>
+        <div class="mb-3">
+            <h1 class="display-1 fw-bold">Square Up</h1>
         </div>
+        <button type="button" class="btn btn-primary">Sign Up</button>
     </div>
+    {% comment %} <br>
+    <div>
+        <input type="text" name="search" id="search" placeholder="Search Friends" class="form-control" />
+    </div>
+    <ul class="list-group" id="result">
+        <li class="list-group-item d-flex align-items-center">
+            <img class="img-thumbnail rounded-circle search-img me-3"
+                src="https://illlustrations.co/static/095ac91f64ded9205fed0db5ada5486c/127-sick-sneezing.svg" alt=""
+                srcset="">
+            <div class="d-flex flex-column">
+                <div>@sneezegirl</div>
+                <div class="text-muted">Sneezing Girl</div>
+            </div>
+        </li>
+        <li class="list-group-item d-flex align-items-center">
+            <img class="img-thumbnail rounded-circle search-img me-3"
+                src="https://illlustrations.co/static/3e8919a739187afc54dbc64e398d91c7/day33-pumpkin.png" alt=""
+                srcset="">
+            <div class="d-flex flex-column">
+                <div>@pump</div>
+                <div class="text-muted">Pumpkin</div>
+            </div>
+        </li>
+        <li class="list-group-item d-flex align-items-center">
+            <img class="img-thumbnail rounded-circle search-img me-3"
+                src="https://illlustrations.co/static/5b3aa7bb305ca2a113ec1b813be00fb8/day22-owl.png" alt="" srcset="">
+            <div class="d-flex flex-column">
+                <div>@owlz</div>
+                <div class="text-muted">Blue Owl</div>
+            </div>
+        </li>
+    </ul> {% endcomment %}
+</div>
 {% endblock content %}
+
+
+
+<!-- https://illlustrations.co/static/d54a81139f27097038a17386717d96ab/127-sick-sneezing.png
+https://illlustrations.co/static/3e8919a739187afc54dbc64e398d91c7/day33-pumpkin.png
+https://illlustrations.co/static/5b3aa7bb305ca2a113ec1b813be00fb8/day22-owl.png -->

@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'ledger.apps.LedgerConfig',
+    'users.apps.UsersConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     'django.contrib.admin',
@@ -135,10 +137,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
 
 # Require for Bootstrap 5 Crispy Forms
 # See more here: https://github.com/django-crispy-forms/crispy-bootstrap5

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container content-section">
+    <h2>{{ source_user }} attempting to add friend: {{ target_user }}</h2>
+    <h3>{{ relationship }}</h3>
+    <h3>Friend Manager have_relationship: {{ fm.have_relationship }}</h3>
+    <h3>Friend Manager friend_status: {{ fm.friend_status }}</h3>
+    <h3>Friend Manager are_friends: {{ fm.are_friends }}</h3>
+</div>
+{% endblock content %}

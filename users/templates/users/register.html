@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="d-flex flex-column align-items-center justify-content-center flex-grow-1" id="su-banner">
+    <div class="content-section">
+        {% include "user_register_form.html" %}
+        <div class="border-top mt-3 pt-3">
+            <small class="text-muted">
+                Already have an account? <a href="{% url 'home' %}" class="ml-2">Sign In</a>
+            </small>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

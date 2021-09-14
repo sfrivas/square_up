@@ -1,0 +1,32 @@
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <legend class="border-bottom mb-4">Join Today</legend>
+    <div class="row  flex-grow-1">
+        <div class="col-md-6 flex-grow-1">
+            {{ form.first_name|as_crispy_field }}
+        </div>
+        <div class="col-md-6 flex-grow-1">
+            {{ form.last_name|as_crispy_field }}
+        </div>
+    </div>
+    <div class="row flex-grow-1">
+        {{ form.username|as_crispy_field }}
+    </div>
+    <div class="row flex-grow-1">
+        {{ form.email|as_crispy_field }}
+    </div>
+    <div class="row flex-grow-1">
+        {{ form.password1|as_crispy_field }}
+    </div>
+    <div class="row flex-grow-1">
+        {{ form.password2|as_crispy_field }}
+    </div>
+    <div class="row flex-grow-1">
+        <div class="col-12 flex-grow-1">
+            <button class="btn btn-primary" type="submit">Sign Up</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
