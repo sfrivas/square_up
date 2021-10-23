@@ -1,19 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
+{% with NEW=0 ACTIVE=1 REJECTED=2 %}
 <div class="container content-section">
     <div class="card">
         <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
-                <img src="{{ object.profile.image.url }}" alt="Profile Image" class="rounded-circle"
+                <img src="{{ friend.profile.image.url }}" alt="Profile Image" class="rounded-circle"
                     width="250">
                 <div class="mt-3">
-                    <h4>{{ object.first_name }} {{ object.last_name }}</h4>
-                    <p class="text-secondary mb-3">@{{ object.username }}</p>
-                    <a href="{% url 'add-friend' object.username %}" class="btn btn-primary">Add Friend</a>
+                    <h4>{{ friend.first_name }} {{ friend.last_name }}</h4>
+                    <p class="text-secondary mb-3">@{{ friend.username }}</p>
+                    <a href="{% url 'add-friend' friend %}" class="btn btn-primary">
+                        {% if friendship.friend_status == NEW %}
+                        Pending Friend
+                        {% elif friendship.friend_status == ACTIVE %}
+                        Friends
+                        {% elif friendship.friend_status == REJECTED %}
+                        Rejected
+                        {% else %}
+                        Add Friend
+                        {% endif %}
+                    </a>
                     <a href="#" class="btn btn-outline-primary">Message</a>
                 </div>
             </div>
         </div>
     </div>
+    <h3>{{ friendship.friend_status }}</h3>
+    <h3>{{ request.user.username }}</h3>
 </div>
+{% endwith %}
 {% endblock content %}

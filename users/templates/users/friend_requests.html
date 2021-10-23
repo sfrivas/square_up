@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 class="text-center mb-3">Friend Requests of {{ request.user.username }}</h1>
+    {% for friend_request in object_list %}
+    <div class="row my-3">
+        <div class="col-lg-6 mx-auto">
+            <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                    <img class="rounded-circle account-img img-thumbnail me-3" src="{{ friend_request.source_user.profile.image.url }}">
+                </div>
+                <div class="flex-grow-1">
+                    <h2 class="account-heading">{{ friend_request.source_user.username }}</h2>
+                </div>
+                <div class="flex-grow-0">
+                    <a type="button" class="btn btn-success" href="{% url 'friend-request-action' friend_request.source_user.username %}?approve=true">Approve</a>
+                    <a type="button" class="btn btn-danger" href="{% url 'friend-request-action' friend_request.source_user.username %}?approve=false">Reject</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock content %}

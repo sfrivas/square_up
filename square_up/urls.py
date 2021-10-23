@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from square_up import views as app_views
@@ -23,6 +23,13 @@ from users import views as user_views
 from ledger.views import (
     TransactionCreateView
 )
+
+# Django REST framework
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'users', user_views.UserViewSet)
+router.register(r'userfriends', user_views.UserFriendViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,7 +40,12 @@ urlpatterns = [
     path('transaction/new', TransactionCreateView.as_view(), name='transaction-create'),
     path('profile/', user_views.profile, name='profile'),
     path('user/<slug:username>', user_views.UserProfileView.as_view(), name='user-profiles'),
-    path('user/<slug:username>/addfriend', user_views.AddFriendView.as_view(), name='add-friend'),
+    path('user/<slug:username>/addfriend/', user_views.AddFriendView.as_view(), name='add-friend'),
+    path('friendrequests/', user_views.FriendRequestsView.as_view(), name='friend-requests'),
+    path('friendrequests/<slug:friend_username>/', user_views.friend_request_action, name='friend-request-action'),
+    path('friends/', user_views.FriendsView.as_view(), name='friends'),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 if settings.DEBUG:

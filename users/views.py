@@ -1,15 +1,25 @@
 from django.db.models.query import QuerySet
+from django.urls import reverse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.views.defaults import page_not_found, bad_request
+from django.core.exceptions import SuspiciousOperation
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from django.views.generic.detail import DetailView
+from django.views.generic import (
+    DetailView,
+    ListView
+)
 from django.views import View
 from django.db.models import Q
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile, UserFriend
 from .FriendManager import FriendManager
+
+# Django REST framework
+from rest_framework import viewsets, permissions
+from .serializers import UserFriendSerializer, UserSerializer
 
 # Create your views here.
 def register(request):
@@ -45,6 +55,31 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+@login_required
+def friend_request_action(request, friend_username):
+    action_string = request.GET.get('approve').lower()
+    approved = None
+    if action_string == 'true' or action_string == 'false':
+        approved = action_string == 'true'
+        print(f'Action string from url: {action_string}.')
+    else:
+        return bad_request(request, SuspiciousOperation)
+    
+    friend = User.objects.filter(username=friend_username).first()
+    fm = FriendManager(request.user, friend)
+    
+
+    if approved:
+        # User accepted request
+        result = fm.approve(request.user)
+    else:
+        # User rejected request
+        result = fm.reject(request.user)
+
+    print(reverse('friend-requests'))
+
+    return redirect('friend-requests')
 
 
 class AddFriendView(LoginRequiredMixin, View):
@@ -87,9 +122,64 @@ class AddFriendView(LoginRequiredMixin, View):
 
         return render(request, 'users/after_add_friend.html', context)
 
+class FriendsView(LoginRequiredMixin, ListView):
+    model = UserFriend
+    ordering = ['-created_date']
+    template_name = 'users/friends.html'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.request.user.username)
+        fm = FriendManager(user, None)
+        friends = fm.get_all_friends()
+        print(list(friends))
+        return friends
+
+class FriendRequestsView(LoginRequiredMixin, ListView):
+    model = UserFriend
+    ordering = ['created_date']
+    template_name = 'users/friend_requests.html'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.request.user.username)
+        fm = FriendManager(user, None)
+        incoming_requests = fm.get_incoming_requests()
+        print(list(incoming_requests))
+        return incoming_requests
+
 
 class UserProfileView(DetailView):
     model = User
     template_name = 'users/view_profile.html'
     slug_url_kwarg = 'username'
     slug_field = 'username'
+
+    def get(self, request, username):
+        if request.user.is_authenticated:
+
+            friend = self.get_object()
+
+            friendship = FriendManager(request.user, friend)
+
+            context = {
+                'user': request.user,
+                'friend': self.get_object(),
+                'friendship': friendship
+            }
+        
+        return render(request, self.template_name, context)
+
+class UserFriendViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows UserFriends to be viewed or edited.
+    """
+    queryset = UserFriend.objects.all()
+    serializer_class = UserFriendSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
